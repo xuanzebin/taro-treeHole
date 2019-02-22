@@ -1,46 +1,60 @@
-import { AtButton } from 'taro-ui'
 import Taro, { Component } from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View,Text } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import Card from '../../components/card/card'
 
-import './index.scss'
+import './message.scss'
 
 
-// @inject('counterStore')
-// @observer
-class Index extends Component {
+@inject('treeHoleStore')
+@observer
+class Message extends Component {
 
   config = {
     navigationBarTitleText: '树洞页面',
     backgroundTextStyle: 'dark',
   }
-  constructor(){
+  constructor() {
+    super(...arguments)
   }
-  componentWillMount () {
-   }
+  componentWillMount() { }
 
-
-  componentWillReact () {
+  componentWillReact() {
     console.log('componentWillReact')
   }
+  componentDidMount() { }
 
-  componentDidMount () { }
+  componentWillUnmount() { }
 
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  render () {
-    // const { counterStore: { counter } } = this.props
+  render() {
+    const { treeHoleStore: { data: { messageList } } } = this.props
+    let listCheck
+    if (messageList.length === 0) {
+      listCheck = false
+    } else {
+      listCheck = true
+    }
+    const card = messageList.map((value) => {
+      console.log(value)
+      return (
+        <Card
+          key={value.objectId}
+          nickName={value.nickName}
+          avatarUrl={value.avatarUrl}
+          city={value.city}
+          updatedAt={value.updatedAt}
+          files={value.files}
+          value={value.value}
+          like={value.like}
+          message={value.message} ></Card>
+      )
+    })
     return (
       <View className='message'>
-        <Card></Card>
+        {listCheck ? card : <Text>树洞等你来填满呢</Text>}
       </View>
-    )
-  }
-}
-
-export default Index 
+          )
+        }
+      }
+      
+      export default Message 

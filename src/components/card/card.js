@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Label, Image } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import { AtAvatar ,AtIcon} from 'taro-ui'
 import './card.scss'
@@ -12,28 +12,28 @@ export default class Card extends Component{
         this.state={}
     }
     render(){
-        const { treeHoleStore: { data:{userData} } } = this.props
+        // const { treeHoleStore: { data:{userData} } } = this.props
         // console.log(userData)
         return (
             <View className='card'>
                 <View className='header'>
-                    <AtAvatar image="https://wx.qlogo.cn/mmopen/vi_32/icAemsOXUK2x0gol6a5iceZANkXRgHfSDj1MGBKMCic7ic3VaSJmibT5TDZnRDLCibwKEf7HEz10RNHwehzHqL3zwb4A/132"></AtAvatar>
+                    <AtAvatar image={this.props.avatarUrl}></AtAvatar>
                     <View className='header_message'>
-                        <Text className='header_message_name'>Benectic</Text>
-                        <Text className='header_message_other'>18分钟前 来自 你猜-</Text>
+                        <Text className='header_message_name'>{this.props.nickName}</Text>
+                        <Text className='header_message_other'>18分钟前 来自 {this.props.city}</Text>
                     </View>
                 </View>
                 <View className='mainText'>
-                    正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文
+                    {this.props.value}
                 </View>
                 <View className='footer'>
                     <View className='icon like'>
-                        <AtIcon value='heart-2' size='20'></AtIcon>
-                        <Text className='number'>1</Text>
+                        <AtIcon value='heart-2' size='24'></AtIcon>
+                        <Text className='number'>{this.props.like===0?'':this.props.like}</Text>
                     </View>
                     <View className='icon message'>
-                        <AtIcon value='message' size='20'></AtIcon>
-                        <Text className='number'>1</Text>
+                        <AtIcon value='message' size='24'></AtIcon>
+                        <Text className='number'>{this.props.message===0?'':this.props.message}</Text>
                     </View>
                 </View>
             </View>

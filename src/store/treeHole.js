@@ -2,24 +2,14 @@ import { observable } from 'mobx'
 
 const treeHoleStore = observable({
   data:{
-    userData:null
+    userData:null,
+    messageList:[]
   },
   updateUserMessage(payload){
     this.data.userData=payload
   },
-  counterStore() {
-    this.counter++
-  },
-  increment() {
-    this.counter++
-  },
-  decrement() {
-    this.counter--
-  },
-  incrementAsync() {
-    setTimeout(() => {
-      this.counter++
-    }, 1000)
+  addMessageList(payload){
+    this.data.messageList.push(payload)
   }
 })
 export default treeHoleStore

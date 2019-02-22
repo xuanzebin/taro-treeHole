@@ -40,9 +40,10 @@ class App extends Component {
       ]
     },
     pages: [
-      'pages/message/message',
-      'pages/index/index',
+      // 'pages/information/information',
       // 'pages/message/message',
+      'pages/index/index',
+      'pages/message/message',
       'pages/information/information',
       'pages/user/user',
     ],
@@ -53,7 +54,7 @@ class App extends Component {
       navigationBarTextStyle: 'black'
     }
   }
-  initAV(){
+  initAV() {
     const AV = require('leancloud-storage/dist/av-weapp.js');
     let APP_ID = 's31J1OQP9GG3Wx3JIhT4pUCB-gzGzoHsz';
     let APP_KEY = 'FvNACBhf4Jq53f57y4CFbYnF';
@@ -63,19 +64,19 @@ class App extends Component {
     })
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.initAV()
   }
 
-  componentDidShow () {}
+  componentDidShow() { }
 
-  componentDidHide () {}
+  componentDidHide() { }
 
-  componentDidCatchError () {}
+  componentDidCatchError() { }
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
-  render () {
+  render() {
     return (
       <Provider store={store}>
         <Index />

@@ -30,13 +30,14 @@
     }
     & > .footer{
         display: flex;
-        justify-content: flex-start;
+        justify-content:space-around;
         align-items: center;
+        border-top: 3px solid #ddd;
         & > .icon{
             margin:10px;
             & > .number{
                 margin-left:10px;
-                font-size:24px;
+                font-size:28px;
             }
         }
     }
