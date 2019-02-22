@@ -1,19 +1,29 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text,Image } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
-import { AtAvatar ,AtIcon} from 'taro-ui'
+import { AtAvatar, AtIcon } from 'taro-ui'
 import './card.scss'
 
 @inject('treeHoleStore')
 @observer
-export default class Card extends Component{
-    constructor(){
+export default class Card extends Component {
+    constructor() {
         super(...arguments)
-        this.state={}
+        this.state = {}
     }
-    render(){
+    render() {
         // const { treeHoleStore: { data:{userData} } } = this.props
         // console.log(userData)
+        const { files } = this.props
+        const picture = files.map((array) => {
+            let { url, picID } = array
+            return (
+                <Image
+                  style='width: 90px;height: 90px;background: #fff;'
+                  src={url} key={picID}
+                />
+            )
+        })
         return (
             <View className='card'>
                 <View className='header'>
@@ -26,14 +36,17 @@ export default class Card extends Component{
                 <View className='mainText'>
                     {this.props.value}
                 </View>
+                <View className='picture'>
+                    {picture}
+                </View>
                 <View className='footer'>
                     <View className='icon like'>
                         <AtIcon value='heart-2' size='24'></AtIcon>
-                        <Text className='number'>{this.props.like===0?'':this.props.like}</Text>
+                        <Text className='number'>{this.props.like === 0 ? '' : this.props.like.length}</Text>
                     </View>
                     <View className='icon message'>
                         <AtIcon value='message' size='24'></AtIcon>
-                        <Text className='number'>{this.props.message===0?'':this.props.message}</Text>
+                        <Text className='number'>{this.props.message === 0 ? '' : this.props.message.length}</Text>
                     </View>
                 </View>
             </View>

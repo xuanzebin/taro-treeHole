@@ -17,7 +17,24 @@ class Message extends Component {
   constructor() {
     super(...arguments)
   }
-  componentWillMount() { }
+  componentWillMount() { 
+    const AV = require('leancloud-storage/dist/av-weapp.js')
+    const { treeHoleStore } = this.props
+    new AV.Query('message')
+      .descending('createdAt')
+      .find()
+      .then(messageList => {
+        let messageDataList=messageList.map(message=>{
+          let {data}=message.attributes
+          let messageData=JSON.parse(data)
+          messageData.id=message.id
+          return messageData
+        })
+        treeHoleStore.initMessageList(messageDataList)
+        console.log(messageDataList)
+      })
+      .catch(console.error);
+  }
 
   componentWillReact() {
     console.log('componentWillReact')
@@ -26,6 +43,8 @@ class Message extends Component {
 
   componentWillUnmount() { }
   componentDidShow(){
+    const { treeHoleStore: { data: { messageList } } } = this.props
+    console.log(messageList)
   }
   render() {
     const { treeHoleStore: { data: { messageList } } } = this.props
@@ -35,19 +54,19 @@ class Message extends Component {
     } else {
       listCheck = true
     }
-    const card = messageList.map((value) => {
-      console.log(value)
+    const card = messageList.map((messageValue) => {
+      let {objectId,nickName,avatarUrl,city,updatedAt,files,value,like,message}=messageValue
       return (
         <Card
-          key={value.objectId}
-          nickName={value.nickName}
-          avatarUrl={value.avatarUrl}
-          city={value.city}
-          updatedAt={value.updatedAt}
-          files={value.files}
-          value={value.value}
-          like={value.like}
-          message={value.message}
+          key={objectId}
+          nickName={nickName}
+          avatarUrl={avatarUrl}
+          city={city}
+          updatedAt={updatedAt}
+          files={files}
+          value={value}
+          like={like}
+          message={message}
         />
       )
     })

@@ -2,7 +2,7 @@ import 'taro-ui/dist/style/index.scss'
 import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/mobx'
 import Index from './pages/index'
-
+import initAV from './leancloud/app.js'
 import treeHoleStore from './store/treeHole'
 
 import './app.scss'
@@ -54,18 +54,8 @@ class App extends Component {
       navigationBarTextStyle: 'black'
     }
   }
-  initAV() {
-    const AV = require('leancloud-storage/dist/av-weapp.js');
-    let APP_ID = 's31J1OQP9GG3Wx3JIhT4pUCB-gzGzoHsz';
-    let APP_KEY = 'FvNACBhf4Jq53f57y4CFbYnF';
-    AV.init({
-      appId: APP_ID,
-      appKey: APP_KEY
-    })
-  }
-
   componentDidMount() {
-    this.initAV()
+    initAV()
   }
 
   componentDidShow() { }

@@ -10,6 +10,9 @@ const treeHoleStore = observable({
   },
   addMessageList(payload){
     this.data.messageList.unshift(payload)
+  },
+  initMessageList(payload){
+    this.data.messageList=payload
   }
 })
 export default treeHoleStore

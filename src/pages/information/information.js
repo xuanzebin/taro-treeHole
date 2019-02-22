@@ -1,4 +1,4 @@
-import { AtForm, AtButton, AtImagePicker, AtTextarea,AtSwitch } from 'taro-ui'
+import { AtForm, AtButton, AtImagePicker, AtTextarea, AtSwitch } from 'taro-ui'
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
@@ -16,12 +16,12 @@ class Information extends Component {
   constructor() {
     super(...arguments)
     this.state = {
-      nameSwitchCheck:false,
-      citySwitchCheck:false,
+      nameSwitchCheck: false,
+      citySwitchCheck: false,
       value: '',
       files: [],
       pickerDisabled: true,
-      hideNameList:[
+      hideNameList: [
         'https://upload-images.jianshu.io/upload_images/11958479-fbee2630d3be61e6.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240',
         'https://upload-images.jianshu.io/upload_images/11958479-ac9407120618e4d1.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240',
         'https://upload-images.jianshu.io/upload_images/11958479-dd53abe8766384f4.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240',
@@ -43,29 +43,51 @@ class Information extends Component {
     treeHoleStore.addMessageList(data)
   }
   onSubmit() {
-    console.log(this.state.value)
     let { files, value } = this.state
     const { treeHoleStore: { data: { userData } } } = this.props
     let { avatarUrl, updatedAt, nickName, objectId, city } = userData
     if (this.state.nameSwitchCheck) {
-      nickName='匿名'
-      avatarUrl=this.state.hideNameList[parseInt(Math.random()*5)]
+      nickName = '匿名'
+      avatarUrl = this.state.hideNameList[parseInt(Math.random() * 5)]
     }
     if (this.state.citySwitchCheck) {
-      city='你猜'
+      city = '你猜'
     }
-    let messageData = { 
-      avatarUrl, 
-      updatedAt, 
-      nickName, 
-      objectId, 
-      city, 
-      value, 
-      files, 
-      like: 0, 
-      message: 0 
-    }
-    this.addMessageList(messageData)
+    const AV = require('leancloud-storage/dist/av-weapp.js')
+    files.map(tempFilePath => () => new AV.File('filename', {
+      blob: {
+        uri: tempFilePath.url,
+      },
+    }).save()).reduce(
+      (m, p) => m.then(v => AV.Promise.all([...v, p()])),
+      AV.Promise.resolve([])
+    ).then((filesUrl) => {
+      let filesMessage = filesUrl.map(file => {
+        return {
+          url: file.url(),
+          picID: file.id
+        }
+      })
+      let messageData = {
+        avatarUrl,
+        updatedAt,
+        nickName,
+        objectId,
+        city,
+        value,
+        files:filesMessage,
+        like: [],
+        message: []
+      }
+      var Message = AV.Object.extend('message');
+      // 新建对象
+      var query = new Message();
+      query.set('data',JSON.stringify(messageData))
+      query.save().then((todo)=>{
+        messageData.messageID=todo.id
+        this.addMessageList(messageData)
+      })
+    }).catch(console.error);
   }
   onReset() {
     this.setState({
@@ -93,12 +115,12 @@ class Information extends Component {
   onImageClick(index, file) {
     console.log(index, file)
   }
-  handleChangeName(nameSwitchCheck){
+  handleChangeName(nameSwitchCheck) {
     this.setState({
       nameSwitchCheck
     })
   }
-  handleChangeCity(citySwitchCheck){
+  handleChangeCity(citySwitchCheck) {
     this.setState({
       citySwitchCheck
     })

@@ -1,14 +1,13 @@
-import { AtButton } from 'taro-ui'
 import Taro, { Component } from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
-import { observer, inject } from '@tarojs/mobx'
+import { View} from '@tarojs/components'
+// import { observer, inject } from '@tarojs/mobx'
 
-import './index.scss'
+import './User.scss'
 
 
 // @inject('counterStore')
 // @observer
-class Index extends Component {
+class User extends Component {
 
   config = {
     navigationBarTitleText: '个人页面'
@@ -41,4 +40,4 @@ class Index extends Component {
   }
 }
 
-export default Index 
+export default User 
