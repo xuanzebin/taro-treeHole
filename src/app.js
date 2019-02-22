@@ -3,7 +3,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/mobx'
 import Index from './pages/index'
 
-import counterStore from './store/counter'
+import treeHoleStore from './store/treeHole'
 
 import './app.scss'
 
@@ -14,14 +14,37 @@ import './app.scss'
 // }
 
 const store = {
-  counterStore
+  treeHoleStore
 }
 
 class App extends Component {
 
   config = {
+    tabBar: {
+      borderStyle: "white",
+      color: "#595959",
+      selectedColor: "#1c1b21",
+      list: [
+        {
+          pagePath: "pages/message/message",
+          text: "树洞页面",
+          // iconPath: "iconfont/home.png",
+          // selectedIconPath: "iconfont/home.png"
+        },
+        {
+          pagePath: "pages/information/information",
+          text: "发送页面",
+          // iconPath: "iconfont/picture.png",
+          // selectedIconPath: "iconfont/picture.png"
+        }
+      ]
+    },
     pages: [
-      'pages/index/index'
+      'pages/message/message',
+      'pages/index/index',
+      // 'pages/message/message',
+      'pages/information/information',
+      'pages/user/user',
     ],
     window: {
       backgroundTextStyle: 'light',

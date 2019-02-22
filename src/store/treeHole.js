@@ -1,7 +1,12 @@
 import { observable } from 'mobx'
 
-const counterStore = observable({
-  counter: 0,
+const treeHoleStore = observable({
+  data:{
+    userData:null
+  },
+  updateUserMessage(payload){
+    this.data.userData=payload
+  },
   counterStore() {
     this.counter++
   },
@@ -17,4 +22,4 @@ const counterStore = observable({
     }, 1000)
   }
 })
-export default counterStore
+export default treeHoleStore

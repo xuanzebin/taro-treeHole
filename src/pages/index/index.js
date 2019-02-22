@@ -6,7 +6,7 @@ import { observer, inject } from '@tarojs/mobx'
 import './index.scss'
 
 
-@inject('counterStore')
+@inject('treeHoleStore')
 @observer
 class Index extends Component {
 
@@ -40,19 +40,24 @@ class Index extends Component {
 
   componentDidHide () { }
 
-  increment = () => {
-    const { counterStore } = this.props
-    counterStore.increment()
-  }
+  // increment = () => {
+  //   const { counterStore } = this.props
+  //   counterStore.increment()
+  // }
 
-  decrement = () => {
-    const { counterStore } = this.props
-    counterStore.decrement()
-  }
+  // decrement = () => {
+  //   const { counterStore } = this.props
+  //   counterStore.decrement()
+  // }
 
-  incrementAsync = () => {
-    const { counterStore } = this.props
-    counterStore.incrementAsync()
+  // incrementAsync = () => {
+  //   const { counterStore } = this.props
+  //   counterStore.incrementAsync()
+  // }
+  updateUserMessage(payload){
+    const { treeHoleStore } = this.props
+    treeHoleStore.updateUserMessage(payload)
+
   }
   onHandleClick(){
     const user = this.AV.User.current();
@@ -62,21 +67,22 @@ class Index extends Component {
         // 更新当前用户的信息
         user.set(userInfo).save().then(user2 => {
           // 成功，此时可在控制台中看到更新后的用户信息
-          this.globalData.user = user2.toJSON();
+          let userData=user2.toJSON()
+          this.globalData.user = userData
           console.log(this.globalData.user)
+          this.updateUserMessage(userData)
+          Taro.switchTab({
+            url: '../message/message'
+          })
         }).catch(console.error);
       }
     });
   }
 
   render () {
-    const { counterStore: { counter } } = this.props
+    const { treeHoleStore: { counter } } = this.props
     return (
       <View className='index'>
-        <Button onClick={this.increment}>+</Button>
-        <Button onClick={this.decrement}>-</Button>
-        <Button onClick={this.incrementAsync}>Add Async</Button>
-        <Text>{counter}</Text>
         <Text>欢迎来到树洞!</Text>
         <AtButton type='primary' onClick={this.onHandleClick}>进入树洞</AtButton>
       </View>
