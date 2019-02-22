@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View,Text } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import Card from '../../components/card/card'
 
@@ -46,15 +46,16 @@ class Message extends Component {
           files={value.files}
           value={value.value}
           like={value.like}
-          message={value.message} ></Card>
+          message={value.message}
+        />
       )
     })
     return (
       <View className='message'>
         {listCheck ? card : <Text>树洞等你来填满呢</Text>}
       </View>
-          )
-        }
-      }
-      
-      export default Message 
+    )
+  }
+}
+
+export default Message 

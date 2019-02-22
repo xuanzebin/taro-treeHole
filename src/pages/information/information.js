@@ -17,21 +17,13 @@ class Information extends Component {
     super(...arguments)
     this.state = {
       value: '',
-      files: []
+      files: [],
+      pickerDisabled:true
     }
   }
   componentWillReact() {
     console.log('componentWillReact')
   }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
   handleChange(event) {
     this.setState({
       value: event.target.value
@@ -48,7 +40,7 @@ class Information extends Component {
     let files = this.state.files
     const { treeHoleStore: { data: { userData } } } = this.props
     let { avatarUrl, updatedAt, nickName, objectId, city } = userData
-    let messageData = { avatarUrl, updatedAt, nickName, objectId, city, value, files,like:0,message:0 }
+    let messageData = { avatarUrl, updatedAt, nickName, objectId, city, value, files, like: 0, message: 0 }
     this.addMessageList(messageData)
   }
   onReset() {
@@ -61,6 +53,16 @@ class Information extends Component {
     this.setState({
       files
     })
+    if (files.length === 9) {
+      this.setState({
+        pickerDisabled:false
+      })
+      console.log('无法继续添加图片了')
+    } else {
+      this.setState({
+        pickerDisabled:true
+      })
+    }
   }
   onFail(mes) {
     console.log(mes)
@@ -86,12 +88,12 @@ class Information extends Component {
             placeholder='写下你想丢给树洞的话吧'
           />
           <AtImagePicker
-            multiple
-            length={5}
+            length={3}
             files={this.state.files}
             onChange={this.onChange.bind(this)}
             onFail={this.onFail.bind(this)}
             onImageClick={this.onImageClick.bind(this)}
+            showAddBtn={this.state.pickerDisabled}
           />
           <AtButton
             type='primary'
