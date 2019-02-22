@@ -25,7 +25,8 @@ class Message extends Component {
   componentDidMount() { }
 
   componentWillUnmount() { }
-
+  componentDidShow(){
+  }
   render() {
     const { treeHoleStore: { data: { messageList } } } = this.props
     let listCheck
@@ -52,7 +53,7 @@ class Message extends Component {
     })
     return (
       <View className='message'>
-        {listCheck ? card : <Text>树洞等你来填满呢</Text>}
+        {listCheck ? card : <View className='empty'><Text>树洞等你来填满呢</Text></View>}
       </View>
     )
   }
