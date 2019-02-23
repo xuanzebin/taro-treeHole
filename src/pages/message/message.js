@@ -5,17 +5,22 @@ import Card from '../../components/card/card'
 
 import './message.scss'
 
-
 @inject('treeHoleStore')
 @observer
 class Message extends Component {
 
+  static defaultProps = {
+    treeHoleStore: null
+  }
   config = {
     navigationBarTitleText: '树洞页面',
     backgroundTextStyle: 'dark',
   }
   constructor() {
     super(...arguments)
+    this.state = {
+      messageList:[]
+    }
   }
   componentWillMount() {
     const AV = require('leancloud-storage/dist/av-weapp.js')
@@ -31,26 +36,25 @@ class Message extends Component {
           return messageData
         })
         treeHoleStore.initMessageList(messageDataList)
+        this.setState({
+          messageList:messageDataList
+        })
       })
       .catch(console.error);
   }
-  componentDidShow() {
-    const { treeHoleStore: { data: { messageList } } } = this.props
-    console.log(messageList)
+  componentDidShow(){
+    let { treeHoleStore: { data: { messageList } } } = this.props
+    this.setState({
+      messageList
+    }) 
   }
   render() {
-    const { treeHoleStore: { data: { messageList } } } = this.props
-    let listCheck
-    if (messageList.length === 0) {
-      listCheck = false
-    } else {
-      listCheck = true
-    }
-    const card = messageList.map((messageValue) => {
-      let { objectId, nickName, avatarUrl, city, updatedAt, files, value, like, message } = messageValue
+    let card = this.state.messageList.length !== 0 ? this.state.messageList.map((messageValue) => {
+      let { objectId, nickName, avatarUrl, city, updatedAt, files, value, like, message,id } = messageValue
       return (
         <Card
-          key={objectId}
+          owner={objectId}
+          key={id}
           nickName={nickName}
           avatarUrl={avatarUrl}
           city={city}
@@ -61,13 +65,13 @@ class Message extends Component {
           message={message}
         />
       )
-    })
+    }) : ''
+    // <View className='empty'><Text>树洞等你来填满呢</Text></View>
     return (
       <View className='message'>
-        {listCheck ? card : <View className='empty'><Text>树洞等你来填满呢</Text></View>}
+        {card}
       </View>
     )
   }
 }
-
 export default Message 

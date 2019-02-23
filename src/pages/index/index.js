@@ -20,6 +20,7 @@ class Index extends Component {
     this.onHandleClick = this.onHandleClick.bind(this)
     const AV = require('leancloud-storage/dist/av-weapp.js');
     this.AV = AV
+    this.state={}
   }
   componentWillMount() {
     this.AV.User.loginWithWeapp().then(user => {
@@ -48,6 +49,7 @@ class Index extends Component {
           this.updateUserMessage(userobj)
           Taro.switchTab({
             url: '../message/message'
+            // url: '../information/information'
           })
         }).catch(console.error);
       }

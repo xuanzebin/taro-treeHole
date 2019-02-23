@@ -7,6 +7,10 @@ import './card.scss'
 @inject('treeHoleStore')
 @observer
 export default class Card extends Component {
+
+    static defaultProps={
+        files:[]
+    }
     constructor() {
         super(...arguments)
         this.state = {
@@ -21,10 +25,13 @@ export default class Card extends Component {
             urls: this.state.urls // 需要预览的图片http链接列表
         })
     }
-    render() {
+    componentWillMount(){
         const { files } = this.props
         const urls = files.map((array) => array.url)
         this.setState({ urls })
+    }
+    render() {
+        const { files } = this.props
         const picture = files.map((array) => {
             let { url, picID } = array
             return (

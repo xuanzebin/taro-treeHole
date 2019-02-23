@@ -147,7 +147,6 @@ class Information extends Component {
     })
   }
   render() {
-    // const { counterStore: { counter } } = this.props
     return (
       <View className='index'>
         <AtForm
@@ -177,6 +176,7 @@ class Information extends Component {
             type='primary'
             formType='submit'
             className='submitButton'
+            disabled={!this.state.value&&this.state.files.length===0}
           >
             发送
           </AtButton>
@@ -184,6 +184,7 @@ class Information extends Component {
             type='secondary'
             formType='reset'
             className='resetButton'
+            disabled={!this.state.value&&this.state.files.length===0}
           >
             清空
           </AtButton>
