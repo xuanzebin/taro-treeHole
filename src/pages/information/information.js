@@ -11,7 +11,7 @@ import './information.scss'
 class Information extends Component {
 
   config = {
-    navigationBarTitleText: '发送页面'
+    navigationBarTitleText: '树洞留言'
   }
   constructor() {
     super(...arguments)
@@ -41,6 +41,21 @@ class Information extends Component {
   addMessageList(data) {
     const { treeHoleStore } = this.props
     treeHoleStore.addMessageList(data)
+  }
+  interactive() {
+    Taro.showToast({
+      title: '发送成功',
+      icon: 'success',
+      duration: 1000,
+      complete: () => {
+        setTimeout(() => {
+          Taro.switchTab({
+            url: '../message/message'
+          })
+          this.emptyData()
+        }, 500)
+      }
+    })
   }
   onSubmit() {
     let { files, value } = this.state
@@ -75,17 +90,17 @@ class Information extends Component {
         objectId,
         city,
         value,
-        files:filesMessage,
+        files: filesMessage,
         like: [],
         message: []
       }
-      var Message = AV.Object.extend('message');
-      // 新建对象
-      var query = new Message();
-      query.set('data',JSON.stringify(messageData))
-      query.save().then((todo)=>{
-        messageData.messageID=todo.id
+      var Message = AV.Object.extend('message')
+      var query = new Message()
+      query.set('data', JSON.stringify(messageData))
+      query.save().then((todo) => {
+        messageData.messageID = todo.id
         this.addMessageList(messageData)
+        this.interactive()
       })
     }).catch(console.error);
   }
@@ -123,6 +138,12 @@ class Information extends Component {
   handleChangeCity(citySwitchCheck) {
     this.setState({
       citySwitchCheck
+    })
+  }
+  emptyData(){
+    this.onReset()
+    this.setState({
+      files:[]
     })
   }
   render() {

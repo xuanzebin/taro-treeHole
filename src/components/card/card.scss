@@ -24,6 +24,7 @@
         }
     }
     & > .mainText{
+        margin-left:10px;
         margin-top:20px;
         margin-bottom:10px;
         font-size:34px;
@@ -41,12 +42,15 @@
             }
         }
     }
-    // & > .picture {
-    //     display: flex;
-    //     flex-wrap: wrap;
-    //     align-content: space-between;
-    //     &> Image{
-    //         margin:10px;
-    //     }
-    // }
+    & > .picture {
+        display: flex;
+        flex-wrap: wrap;
+        width:630px;
+        margin:5px;
+        &> Image{
+            width:200px;
+            height:200px;
+            margin:5px;
+        }
+    }
 }

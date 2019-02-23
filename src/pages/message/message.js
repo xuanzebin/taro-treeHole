@@ -17,32 +17,24 @@ class Message extends Component {
   constructor() {
     super(...arguments)
   }
-  componentWillMount() { 
+  componentWillMount() {
     const AV = require('leancloud-storage/dist/av-weapp.js')
     const { treeHoleStore } = this.props
     new AV.Query('message')
       .descending('createdAt')
       .find()
       .then(messageList => {
-        let messageDataList=messageList.map(message=>{
-          let {data}=message.attributes
-          let messageData=JSON.parse(data)
-          messageData.id=message.id
+        let messageDataList = messageList.map(message => {
+          let { data } = message.attributes
+          let messageData = JSON.parse(data)
+          messageData.id = message.id
           return messageData
         })
         treeHoleStore.initMessageList(messageDataList)
-        console.log(messageDataList)
       })
       .catch(console.error);
   }
-
-  componentWillReact() {
-    console.log('componentWillReact')
-  }
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-  componentDidShow(){
+  componentDidShow() {
     const { treeHoleStore: { data: { messageList } } } = this.props
     console.log(messageList)
   }
@@ -55,7 +47,7 @@ class Message extends Component {
       listCheck = true
     }
     const card = messageList.map((messageValue) => {
-      let {objectId,nickName,avatarUrl,city,updatedAt,files,value,like,message}=messageValue
+      let { objectId, nickName, avatarUrl, city, updatedAt, files, value, like, message } = messageValue
       return (
         <Card
           key={objectId}

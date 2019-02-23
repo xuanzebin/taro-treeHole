@@ -11,7 +11,7 @@ import './index.scss'
 class Index extends Component {
 
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '进入树洞'
   }
   globalData = {
     user: null

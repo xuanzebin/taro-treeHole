@@ -28,14 +28,14 @@ class App extends Component {
         {
           pagePath: "pages/message/message",
           text: "树洞页面",
-          // iconPath: "iconfont/home.png",
-          // selectedIconPath: "iconfont/home.png"
+          iconPath: "asset/index.png",
+          selectedIconPath: "asset/indexSelect.png"
         },
         {
           pagePath: "pages/information/information",
-          text: "发送页面",
-          // iconPath: "iconfont/picture.png",
-          // selectedIconPath: "iconfont/picture.png"
+          text: "树洞留言",
+          iconPath: "asset/send.png",
+          selectedIconPath: "asset/sendSelect.png"
         }
       ]
     },
@@ -48,24 +48,16 @@ class App extends Component {
       'pages/user/user',
     ],
     window: {
+      navigationBarBackgroundColor: "#6190E8",
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
+      // navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'white'
     }
   }
   componentDidMount() {
     initAV()
   }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  componentDidCatchError() { }
-
-  // 在 App 类中的 render() 函数没有实际作用
-  // 请勿修改此函数
   render() {
     return (
       <Provider store={store}>
