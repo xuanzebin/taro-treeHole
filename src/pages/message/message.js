@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import Card from '../../components/card/card'
 
@@ -15,6 +15,7 @@ class Message extends Component {
   config = {
     navigationBarTitleText: '树洞页面',
     backgroundTextStyle: 'dark',
+    enablePullDownRefresh: true,
   }
   constructor() {
     super(...arguments)
@@ -22,10 +23,18 @@ class Message extends Component {
       messageList:[]
     }
   }
-  componentWillMount() {
+  onPullDownRefresh() {
+    Taro.startPullDownRefresh()
+    Taro.showNavigationBarLoading()
+    this.fetchMessageData().then(()=>{
+      Taro.stopPullDownRefresh()
+      Taro.hideNavigationBarLoading()
+    })
+  }
+  fetchMessageData(){
     const AV = require('leancloud-storage/dist/av-weapp.js')
     const { treeHoleStore } = this.props
-    new AV.Query('message')
+    return new AV.Query('message')
       .descending('createdAt')
       .find()
       .then(messageList => {
@@ -41,6 +50,9 @@ class Message extends Component {
         })
       })
       .catch(console.error);
+  }
+  componentWillMount() {
+    this.fetchMessageData()
   }
   componentDidShow(){
     let { treeHoleStore: { data: { messageList } } } = this.props
