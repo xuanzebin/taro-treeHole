@@ -41,7 +41,7 @@ class Index extends Component {
     user.set(e.detail.userInfo).save().then(user2 => {
       let userData = user2.toJSON()
       this.globalData.user = userData
-      let { avatarUrl, country, updatedAt, nickName, province, objectId, city } = userData
+      let { avatarUrl, country, nickName, updatedAt, province, objectId, city } = userData
       let userobj = { avatarUrl, country, updatedAt, nickName, province, objectId, city }
       this.updateUserMessage(userobj)
       Taro.switchTab({

@@ -7,7 +7,6 @@ import './card.scss'
 @inject('treeHoleStore')
 @observer
 export default class Card extends Component {
-
     static defaultProps = {
         files: []
     }
@@ -71,7 +70,7 @@ export default class Card extends Component {
                     <AtAvatar image={this.props.avatarUrl}></AtAvatar>
                     <View className='header_message'>
                         <Text className='header_message_name'>{this.props.nickName}</Text>
-                        <Text className='header_message_other'>18分钟前 来自 {this.props.city}</Text>
+                        <Text className='header_message_other'>{this.props.time+' '} 来自 {' '+this.props.city}</Text>
                     </View>
                 </View>
                 <View className='mainText'>

@@ -18,6 +18,7 @@ class Information extends Component {
     this.state = {
       nameSwitchCheck: false,
       citySwitchCheck: false,
+      submitCheck: false,
       value: '',
       files: [],
       pickerDisabled: true,
@@ -53,14 +54,21 @@ class Information extends Component {
             url: '../message/message'
           })
           this.emptyData()
+          this.setState({
+            submitCheck:false
+          })
         }, 500)
       }
     })
   }
   onSubmit() {
+    if (this.state.submitCheck) return 
+    this.setState({
+      submitCheck:true
+    })
     let { files, value } = this.state
     const { treeHoleStore: { data: { userData } } } = this.props
-    let { avatarUrl, updatedAt, nickName, objectId, city } = userData
+    let { avatarUrl, nickName, objectId, city } = userData
     if (this.state.nameSwitchCheck) {
       nickName = '匿名'
       avatarUrl = this.state.hideNameList[parseInt(Math.random() * 5)]
@@ -85,7 +93,6 @@ class Information extends Component {
       })
       let messageData = {
         avatarUrl,
-        updatedAt,
         nickName,
         objectId,
         city,
@@ -98,6 +105,7 @@ class Information extends Component {
       var query = new Message()
       query.set('data', JSON.stringify(messageData))
       query.save().then((todo) => {
+        messageData.createdAt = todo.createdAt
         messageData.messageID = todo.id
         this.addMessageList(messageData)
         this.interactive()
@@ -140,10 +148,10 @@ class Information extends Component {
       citySwitchCheck
     })
   }
-  emptyData(){
+  emptyData() {
     this.onReset()
     this.setState({
-      files:[]
+      files: []
     })
   }
   render() {
@@ -176,7 +184,7 @@ class Information extends Component {
             type='primary'
             formType='submit'
             className='submitButton'
-            disabled={!this.state.value&&this.state.files.length===0}
+            disabled={!this.state.value && this.state.files.length === 0}
           >
             发送
           </AtButton>
@@ -184,7 +192,7 @@ class Information extends Component {
             type='secondary'
             formType='reset'
             className='resetButton'
-            disabled={!this.state.value&&this.state.files.length===0}
+            disabled={!this.state.value && this.state.files.length === 0}
           >
             清空
           </AtButton>
