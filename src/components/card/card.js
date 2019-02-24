@@ -8,8 +8,8 @@ import './card.scss'
 @observer
 export default class Card extends Component {
 
-    static defaultProps={
-        files:[]
+    static defaultProps = {
+        files: []
     }
     constructor() {
         super(...arguments)
@@ -25,12 +25,30 @@ export default class Card extends Component {
             urls: this.state.urls // 需要预览的图片http链接列表
         })
     }
-    componentWillMount(){
+    componentWillMount() {
         const { files } = this.props
         const urls = files.map((array) => array.url)
         this.setState({ urls })
     }
+    clickLike() {
+        const { 
+            index,
+            treeHoleStore, 
+            treeHoleStore: { data: { userData } }
+        } = this.props
+        const like =treeHoleStore.data.messageList[index].like
+        const id = userData.objectId
+        const likeIndex = like.indexOf(id)
+        if (likeIndex === -1) {
+            treeHoleStore.addLike(index, id)
+        } else {
+            treeHoleStore.reduceLike(index, likeIndex)
+        }
+        
+    }
     render() {
+        const { index } = this.props
+        const { length } = this.props.treeHoleStore.data.messageList[index] ? this.props.treeHoleStore.data.messageList[index].like : 0 
         const { files } = this.props
         const picture = files.map((array) => {
             let { url, picID } = array
@@ -61,14 +79,14 @@ export default class Card extends Component {
                     {picture}
                 </View>
                 <View className='footer'>
-                    <View className='icon like'>
-                        <AtIcon value='heart-2' size='24'></AtIcon>
-                        <Text className='number'>{this.props.like.length === 0 ? '' : this.props.like.length}</Text>
+                    <View className='icon like' onClick={this.clickLike.bind(this)}>
+                        <AtIcon value='heart-2' size='24' color={length !== 0 ? '#FE4950' : ''}></AtIcon>
+                        <Text className={`number ${length===0?'':'active'}`}>{length === 0 ? '' : length}</Text>
                     </View>
-                    <View className='icon message'>
+                    {/* <View className='icon message'>
                         <AtIcon value='message' size='24'></AtIcon>
                         <Text className='number'>{this.props.message.length === 0 ? '' : this.props.message.length}</Text>
-                    </View>
+                    </View> */}
                 </View>
             </View>
         )

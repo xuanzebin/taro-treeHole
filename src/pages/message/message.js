@@ -20,49 +20,27 @@ class Message extends Component {
   constructor() {
     super(...arguments)
     this.state = {
-      messageList:[]
     }
   }
   onPullDownRefresh() {
+    const { treeHoleStore } = this.props
     Taro.startPullDownRefresh()
     Taro.showNavigationBarLoading()
-    this.fetchMessageData().then(()=>{
+    treeHoleStore.fetchMessageList().then(() => {
       Taro.stopPullDownRefresh()
       Taro.hideNavigationBarLoading()
     })
   }
-  fetchMessageData(){
-    const AV = require('leancloud-storage/dist/av-weapp.js')
-    const { treeHoleStore } = this.props
-    return new AV.Query('message')
-      .descending('createdAt')
-      .find()
-      .then(messageList => {
-        let messageDataList = messageList.map(message => {
-          let { data } = message.attributes
-          let messageData = JSON.parse(data)
-          messageData.id = message.id
-          return messageData
-        })
-        treeHoleStore.initMessageList(messageDataList)
-        this.setState({
-          messageList:messageDataList
-        })
-      })
-      .catch(console.error);
-  }
   componentWillMount() {
-    this.fetchMessageData()
+    const { treeHoleStore } = this.props
+    treeHoleStore.fetchMessageList()
   }
-  componentDidShow(){
-    let { treeHoleStore: { data: { messageList } } } = this.props
-    this.setState({
-      messageList
-    }) 
+  componentDidShow() {
   }
   render() {
-    let card = this.state.messageList.length !== 0 ? this.state.messageList.map((messageValue) => {
-      let { objectId, nickName, avatarUrl, city, updatedAt, files, value, like, message,id } = messageValue
+    const { treeHoleStore: { data: { messageList } } } = this.props
+    let card = messageList.map((messageValue, index) => {
+      let { objectId, nickName, avatarUrl, city, updatedAt, files, value, message, id } = messageValue
       return (
         <Card
           owner={objectId}
@@ -73,12 +51,11 @@ class Message extends Component {
           updatedAt={updatedAt}
           files={files}
           value={value}
-          like={like}
           message={message}
+          index={index}
         />
       )
-    }) : ''
-    // <View className='empty'><Text>树洞等你来填满呢</Text></View>
+    })
     return (
       <View className='message'>
         {card}

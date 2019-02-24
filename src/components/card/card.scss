@@ -39,6 +39,9 @@
             & > .number{
                 margin-left:10px;
                 font-size:28px;
+                &.active{
+                    color:#FE4950;
+                }
             }
         }
     }
