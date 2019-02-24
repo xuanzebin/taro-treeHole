@@ -54,9 +54,6 @@ class Information extends Component {
             url: '../message/message'
           })
           this.emptyData()
-          this.setState({
-            submitCheck:false
-          })
         }, 500)
       }
     })
@@ -151,7 +148,8 @@ class Information extends Component {
   emptyData() {
     this.onReset()
     this.setState({
-      files: []
+      files: [],
+      submitCheck:false
     })
   }
   render() {
