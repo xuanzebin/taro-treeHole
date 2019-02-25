@@ -115,17 +115,16 @@ class Information extends Component {
     })
   }
   onChange(files) {
-    this.setState({
-      files
-    })
-    if (files.length === 9) {
+    if (files.length >= 9) {
       this.setState({
-        pickerDisabled: false
+        pickerDisabled: false,
+        files:files.slice(0,9)
       })
       console.log('无法继续添加图片了')
     } else {
       this.setState({
-        pickerDisabled: true
+        pickerDisabled: true,
+        files
       })
     }
   }
@@ -169,6 +168,7 @@ class Information extends Component {
             placeholder='写下你想丢给树洞的话吧'
           />
           <AtImagePicker
+            multiple
             length={3}
             files={this.state.files}
             onChange={this.onChange.bind(this)}

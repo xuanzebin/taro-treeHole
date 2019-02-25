@@ -1,3 +1,4 @@
+import { AtDivider, AtBadge } from 'taro-ui'
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
@@ -101,6 +102,13 @@ class Message extends Component {
     return (
       <View className='message'>
         {card}
+        <AtDivider 
+          content='没有更多了' 
+          fontColor='#2d8cf0' 
+          lineColor='#2d8cf0' 
+          fontSize='25'
+          className='messageDivider'
+        />
       </View>
     )
   }
