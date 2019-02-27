@@ -43,12 +43,10 @@ export default class Card extends Component {
         } else {
             treeHoleStore.reduceLike(index, likeIndex)
         }
-        
     }
     render() {
-        const { index } = this.props
+        const { index, files } = this.props
         const { length } = this.props.treeHoleStore.data.messageList[index] ? this.props.treeHoleStore.data.messageList[index].like : 0 
-        const { files } = this.props
         const { treeHoleStore: { data: { userData: { objectId } } } } = this.props
         const likeCheck = this.props.treeHoleStore.data.messageList[index].like.indexOf(objectId)
         const picture = files.map((array) => {
@@ -84,10 +82,6 @@ export default class Card extends Component {
                         <AtIcon value='heart-2' size='24' color={likeCheck !== -1 ? '#FE4950' : ''}></AtIcon>
                         <Text className={`number ${likeCheck !== -1 ? 'active' : ''}`}>{length === 0 ? '' : length}</Text>
                     </View>
-                    {/* <View className='icon message'>
-                        <AtIcon value='message' size='24'></AtIcon>
-                        <Text className='number'>{this.props.message.length === 0 ? '' : this.props.message.length}</Text>
-                    </View> */}
                 </View>
             </View>
         )

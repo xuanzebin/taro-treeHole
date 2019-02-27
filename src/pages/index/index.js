@@ -10,6 +10,9 @@ import './index.scss'
 @observer
 class Index extends Component {
 
+  static defaultProps = {
+    treeHoleStore: null
+  }
   config = {
     navigationBarTitleText: '进入树洞'
   }

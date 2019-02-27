@@ -10,6 +10,9 @@ import './information.scss'
 @observer
 class Information extends Component {
 
+  static defaultProps = {
+    treeHoleStore: null
+  }
   config = {
     navigationBarTitleText: '树洞留言'
   }
@@ -98,9 +101,10 @@ class Information extends Component {
         like: [],
         message: []
       }
-      var Message = AV.Object.extend('message')
-      var query = new Message()
+      let Message = AV.Object.extend('message')
+      let query = new Message()
       query.set('data', JSON.stringify(messageData))
+      query.set('show',false)
       query.save().then((todo) => {
         messageData.createdAt = todo.createdAt
         messageData.messageID = todo.id
