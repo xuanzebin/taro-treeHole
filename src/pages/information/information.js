@@ -2,6 +2,7 @@ import { AtForm, AtButton, AtImagePicker, AtTextarea, AtSwitch } from 'taro-ui'
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
+import CreateNames from '../../utils/createName'
 
 import './information.scss'
 
@@ -70,7 +71,7 @@ class Information extends Component {
     const { treeHoleStore: { data: { userData } } } = this.props
     let { avatarUrl, nickName, objectId, city } = userData
     if (this.state.nameSwitchCheck) {
-      nickName = '匿名'
+      nickName = CreateNames()
       avatarUrl = this.state.hideNameList[parseInt(Math.random() * 5)]
     }
     if (this.state.citySwitchCheck) {
@@ -105,6 +106,11 @@ class Information extends Component {
       let query = new Message()
       query.set('data', JSON.stringify(messageData))
       query.set('show',false)
+      if (this.state.nameSwitchCheck) {
+        query.set('hideName',true)
+      } else {
+        query.set('hideName',false)
+      }
       query.save().then((todo) => {
         messageData.createdAt = todo.createdAt
         messageData.messageID = todo.id

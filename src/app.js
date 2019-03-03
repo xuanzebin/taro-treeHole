@@ -36,6 +36,12 @@ class App extends Component {
           text: "树洞留言",
           iconPath: "asset/send.png",
           selectedIconPath: "asset/sendSelect.png"
+        },
+        {
+          pagePath: "pages/user/user",
+          text: "个人中心",
+          iconPath: "asset/person.png",
+          selectedIconPath: "asset/personSelect.png"
         }
       ]
     },

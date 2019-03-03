@@ -1,40 +1,25 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View} from '@tarojs/components'
-// import { observer, inject } from '@tarojs/mobx'
+import { View } from '@tarojs/components'
+import { observer, inject } from '@tarojs/mobx'
 
 import './User.scss'
 
 
-// @inject('counterStore')
-// @observer
+@inject('treeHoleStore')
+@observer
 class User extends Component {
 
   config = {
-    navigationBarTitleText: '个人页面'
+    navigationBarTitleText: '个人中心'
   }
-  constructor(){
+  constructor() {
+    super(...arguments)
+    this.state = {}
   }
-  componentWillMount () {
-   }
-
-
-  componentWillReact () {
-    console.log('componentWillReact')
-  }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  render () {
-    // const { counterStore: { counter } } = this.props
+  render() {
     return (
       <View className='index'>
-      3
+        this is a personal index
       </View>
     )
   }
