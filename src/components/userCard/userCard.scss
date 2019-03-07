@@ -1,0 +1,33 @@
+.user{
+    .userCard{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: #568FEF;
+        height:400px;
+        margin-bottom:30px;
+        &>Text{
+            color:white;
+            font-weight:bold;
+            font-size:48px;
+            margin-top:30px;
+        }
+    }
+    & .mainText{
+        margin-left:10px;
+        margin-bottom:10px;
+        font-size:34px;
+    }
+    & .picture {
+        display: flex;
+        flex-wrap: wrap;
+        width:630px;
+        margin:5px;
+        &> Image{
+            width:200px;
+            height:200px;
+            margin:5px;
+        }
+    }
+}

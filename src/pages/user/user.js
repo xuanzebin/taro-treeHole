@@ -3,7 +3,7 @@ import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 
 import './User.scss'
-
+import UserCard from '../../components/userCard/userCard'
 
 @inject('treeHoleStore')
 @observer
@@ -19,7 +19,7 @@ class User extends Component {
   render() {
     return (
       <View className='index'>
-        this is a personal index
+        <UserCard/>
       </View>
     )
   }

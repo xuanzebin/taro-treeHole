@@ -45,10 +45,10 @@ export default class Card extends Component {
         }
     }
     render() {
-        const { index, files } = this.props
-        const { length } = this.props.treeHoleStore.data.messageList[index] ? this.props.treeHoleStore.data.messageList[index].like : 0 
+        const { files } = this.props
+        const { length } = this.props.like
         const { treeHoleStore: { data: { userData: { objectId } } } } = this.props
-        const likeCheck = this.props.treeHoleStore.data.messageList[index].like.indexOf(objectId)
+        const likeCheck = this.props.like.indexOf(objectId)
         const picture = files.map((array) => {
             let { url, picID } = array
             return (
