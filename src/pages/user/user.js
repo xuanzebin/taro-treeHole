@@ -1,6 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
+import { AtAvatar } from 'taro-ui'
+import getDateDiff from '../../utils/message'
 
 import './User.scss'
 import UserCard from '../../components/userCard/userCard'
@@ -8,7 +10,9 @@ import UserCard from '../../components/userCard/userCard'
 @inject('treeHoleStore')
 @observer
 class User extends Component {
-
+  static defaultProps = {
+    treeHoleStore: null
+  }
   config = {
     navigationBarTitleText: '个人中心',
     backgroundTextStyle: 'dark',
@@ -38,9 +42,26 @@ class User extends Component {
     }
   }
   render() {
+    const {treeHoleStore: {data: {userData}}} = this.props
+    const {avatarUrl, nickName, objectId} = userData
+    const {treeHoleStore: {data: {messageList}}} = this.props
+    const ownerCard = messageList.map((messageValue,messageIndex)=>{
+      return messageValue.objectId===objectId ? <UserCard index={messageIndex} key={messageValue.id}></UserCard> : null
+    })
     return (
-      <View className='index'>
-        <UserCard/>
+      <View className='user'>
+          <View className='userCard'>
+              <AtAvatar
+              circle 
+              image={avatarUrl}
+              size='large'
+              >
+              </AtAvatar>
+              <Text className='nickName'>{nickName}</Text>
+          </View>
+            <View className='ownerList'>
+              {ownerCard}
+            </View>
       </View>
     )
   }

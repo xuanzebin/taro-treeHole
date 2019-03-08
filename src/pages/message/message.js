@@ -9,7 +9,6 @@ import './message.scss'
 @inject('treeHoleStore')
 @observer
 class Message extends Component {
-
   static defaultProps = {
     treeHoleStore: null
   }

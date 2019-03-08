@@ -1,0 +1,17 @@
+.user{
+    .userCard{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: #568FEF;
+        height:400px;
+        margin-bottom:30px;
+        &>Text{
+            color:white;
+            font-weight:bold;
+            font-size:48px;
+            margin-top:30px;
+        }
+    }
+}

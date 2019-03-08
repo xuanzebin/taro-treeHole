@@ -8,7 +8,8 @@ import './card.scss'
 @observer
 export default class Card extends Component {
     static defaultProps = {
-        files: []
+        files: [],
+        objectId: null
     }
     constructor() {
         super(...arguments)
@@ -17,7 +18,6 @@ export default class Card extends Component {
         }
     }
     handlePicClick(e) {
-        console.log(e.target)
         var current = e.target.dataset.src;
         Taro.previewImage({
             current: current, // 当前显示图片的http链接
@@ -36,7 +36,6 @@ export default class Card extends Component {
             treeHoleStore: { data: { userData } }
         } = this.props
         const like =treeHoleStore.data.messageList[index].like
-        console.log(like)
         const id = userData.objectId
         const likeIndex = like.indexOf(id)
         if (likeIndex === -1) {

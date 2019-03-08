@@ -1,12 +1,15 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
-import { AtAvatar, AtCard } from 'taro-ui'
+import { AtCard } from 'taro-ui'
 import getDateDiff from '../../utils/message'
 import './userCard.scss'
 @inject('treeHoleStore')
 @observer
 export default class UserCard extends Component {
+    static defaultProps = {
+        userData: []
+    }
     constructor() {
         super(...arguments)
         this.state = {
@@ -25,61 +28,39 @@ export default class UserCard extends Component {
         this.setState({ urls })
     }
     render() {
-        const {treeHoleStore: {data: {userData}}} = this.props
-        console.log(userData)
-        const {avatarUrl, nickName, objectId} = userData
-        const {treeHoleStore: {data: {messageList}}} = this.props
-        let ownerList = messageList.filter(value=>value.objectId===objectId)
-        let card=ownerList.map((messageValue,index)=>{
-            let { createdAt, like, show, files, value } = messageValue
-            this.files=files
-            const picture = files.map((array) => {
-                let { url, picID } = array
-                return (
-                    <Image
-                      style='background: #fff;'
-                      src={url}
-                      key={picID}
-                      data-src={url}
-                      mode='aspectFill'
-                      onClick={this.handlePicClick.bind(this)}
-                    />
-                )
-            })
-            let time = getDateDiff(new Date(createdAt).getTime())
-            console.log(messageValue)
+        let { createdAt, like, show, files, value } = this.props.treeHoleStore.data.messageList[this.props.index]
+        this.files=files
+        let length=like.length
+        console.log(like,value)
+        const picture = files.map((array) => {
+            let { url, picID } = array
             return (
-                <View className='userAtCard'>
-                    <AtCard
-                        note={time}
-                        extra={like.length===0?'':`已获得${like.length}个赞`}
-                        title={show?'已发布到树洞':'正在审核'}
-                        thumb='https://upload-images.jianshu.io/upload_images/11958479-114cc5f2af5f6654.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'
-                    >
-                    <View className='mainText'>
-                        {value}
-                    </View>
-                    <View className='picture'>
-                        {picture}
-                    </View>
-                    </AtCard>
-                </View>
+                <Image
+                    style='background: #fff;'
+                    src={url}
+                    key={picID}
+                    data-src={url}
+                    mode='aspectFill'
+                    onClick={this.handlePicClick.bind(this)}
+                />
             )
         })
+        let time = getDateDiff(new Date(createdAt).getTime())
         return (
-            <View className='user'>
-                <View className='userCard'>
-                    <AtAvatar
-                    circle 
-                    image={avatarUrl}
-                    size='large'
-                    >
-                    </AtAvatar>
-                    <Text className='nickName'>{nickName}</Text>
+            <View className='userCard'>
+                <AtCard
+                    note={time}
+                    extra={length===0?'':`已获得${length}个赞`}
+                    title={show?'已发布到树洞':'正在审核'}
+                    thumb='https://upload-images.jianshu.io/upload_images/11958479-114cc5f2af5f6654.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'
+                >
+                <View className='mainText'>
+                    {value}
                 </View>
-                <View className='ownerList'>
-                    {card}
+                <View className='picture'>
+                    {picture}
                 </View>
+                </AtCard>
             </View>
         )
     }
