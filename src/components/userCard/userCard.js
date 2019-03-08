@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Image } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
-import { AtCard } from 'taro-ui'
+import { AtCard, AtTag } from 'taro-ui'
 import getDateDiff from '../../utils/message'
 import './userCard.scss'
 @inject('treeHoleStore')
@@ -27,11 +27,18 @@ export default class UserCard extends Component {
         const urls = this.files.map((array) => array.url)
         this.setState({ urls })
     }
+    onPrivateClick(e) {
+        const { treeHoleStore } = this.props
+        const index = this.props.index
+        const { id } = this.props.treeHoleStore.data.messageList[index]
+        treeHoleStore.switchPrivate(index,id)
+        console.log('click')
+    }
     render() {
-        let { createdAt, like, show, files, value } = this.props.treeHoleStore.data.messageList[this.props.index]
+        const { createdAt, like, show, files, value, hideName, privateMessage } = this.props.treeHoleStore.data.messageList[this.props.index]
+        
         this.files=files
         let length=like.length
-        console.log(like,value)
         const picture = files.map((array) => {
             let { url, picID } = array
             return (
@@ -54,12 +61,32 @@ export default class UserCard extends Component {
                     title={show?'已发布到树洞':'正在审核'}
                     thumb='https://upload-images.jianshu.io/upload_images/11958479-114cc5f2af5f6654.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'
                 >
-                <View className='mainText'>
-                    {value}
-                </View>
-                <View className='picture'>
-                    {picture}
-                </View>
+                    {hideName?(
+                    <AtTag 
+                        name='hideName' 
+                        type='primary' 
+                        size='small'
+                        circle
+                        disabled
+                    >
+                        已匿名
+                    </AtTag>):''}
+                    {show?<AtTag 
+                        name='private' 
+                        type='primary' 
+                        size='small'
+                        circle
+                        active={!privateMessage}
+                        onClick={this.onPrivateClick.bind(this)}
+                    >
+                        {privateMessage?'取消仅自己可见':'点击仅自己可见'}
+                    </AtTag>:''}
+                    <View className='mainText'>
+                        {value}
+                    </View>
+                    <View className='picture'>
+                        {picture}
+                    </View>
                 </AtCard>
             </View>
         )

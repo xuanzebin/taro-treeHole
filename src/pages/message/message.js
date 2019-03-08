@@ -47,9 +47,9 @@ class Message extends Component {
   render() {
     const { treeHoleStore: { data: { messageList } } } = this.props
     let card = messageList.map((messageValue, index) => {
-      let { objectId, show, nickName, avatarUrl, city, createdAt, files, value, message, id } = messageValue
+      let { objectId, show, nickName, avatarUrl, city, createdAt, files, value, message, id, privateMessage } = messageValue
       let time = getDateDiff(new Date(createdAt).getTime())
-      return show ? <Card
+      return show && !privateMessage ? <Card
           owner={objectId}
           key={id}
           nickName={nickName}

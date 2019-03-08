@@ -2,7 +2,6 @@ import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import { AtAvatar } from 'taro-ui'
-import getDateDiff from '../../utils/message'
 
 import './User.scss'
 import UserCard from '../../components/userCard/userCard'
@@ -42,26 +41,27 @@ class User extends Component {
     }
   }
   render() {
-    const {treeHoleStore: {data: {userData}}} = this.props
-    const {avatarUrl, nickName, objectId} = userData
-    const {treeHoleStore: {data: {messageList}}} = this.props
-    const ownerCard = messageList.map((messageValue,messageIndex)=>{
-      return messageValue.objectId===objectId ? <UserCard index={messageIndex} key={messageValue.id}></UserCard> : null
+    const { treeHoleStore: { data: { userData } } } = this.props
+    const { avatarUrl, nickName, objectId } = userData
+    const { treeHoleStore: { data: { messageList } } } = this.props
+    const ownerCard = messageList.map((messageValue, messageIndex) => {
+      let messageID = messageValue.objectId
+      return messageID === objectId ? <UserCard index={messageIndex} key={messageValue.id}></UserCard> : null
     })
     return (
       <View className='user'>
-          <View className='userCard'>
-              <AtAvatar
-              circle 
-              image={avatarUrl}
-              size='large'
-              >
-              </AtAvatar>
-              <Text className='nickName'>{nickName}</Text>
-          </View>
-            <View className='ownerList'>
-              {ownerCard}
-            </View>
+        <View className='userCard'>
+          <AtAvatar
+            circle
+            image={avatarUrl}
+            size='large'
+          >
+          </AtAvatar>
+          <Text className='nickName'>{nickName}</Text>
+        </View>
+        <View className='ownerList'>
+          {ownerCard}
+        </View>
       </View>
     )
   }

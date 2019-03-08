@@ -63,9 +63,9 @@ class Information extends Component {
     })
   }
   onSubmit() {
-    if (this.state.submitCheck) return 
+    if (this.state.submitCheck) return
     this.setState({
-      submitCheck:true
+      submitCheck: true
     })
     let { files, value } = this.state
     const { treeHoleStore: { data: { userData } } } = this.props
@@ -98,6 +98,7 @@ class Information extends Component {
         objectId,
         city,
         value,
+        privateMessage: false,
         files: filesMessage,
         like: [],
         message: []
@@ -105,15 +106,19 @@ class Information extends Component {
       let Message = AV.Object.extend('message')
       let query = new Message()
       query.set('data', JSON.stringify(messageData))
-      query.set('show',false)
+      query.set('show', false)
+      let hideName
       if (this.state.nameSwitchCheck) {
-        query.set('hideName',true)
+        query.set('hideName', true)
+        hideName = true
       } else {
-        query.set('hideName',false)
+        query.set('hideName', false)
+        hideName = false
       }
       query.save().then((todo) => {
         messageData.createdAt = todo.createdAt
         messageData.messageID = todo.id
+        messageData.hideName = hideName
         this.addMessageList(messageData)
         this.interactive()
       })
@@ -128,7 +133,7 @@ class Information extends Component {
     if (files.length >= 9) {
       this.setState({
         pickerDisabled: false,
-        files:files.slice(0,9)
+        files: files.slice(0, 9)
       })
       console.log('无法继续添加图片了')
     } else {
@@ -158,7 +163,7 @@ class Information extends Component {
     this.onReset()
     this.setState({
       files: [],
-      submitCheck:false
+      submitCheck: false
     })
   }
   render() {
@@ -186,7 +191,7 @@ class Information extends Component {
             onImageClick={this.onImageClick.bind(this)}
             showAddBtn={this.state.pickerDisabled}
           />
-          <AtSwitch title='是否匿名' checked={this.state.nameSwitchCheck} onChange={this.handleChangeName} />
+          <AtSwitch title='是否开启神秘功能' checked={this.state.nameSwitchCheck} onChange={this.handleChangeName} />
           <AtSwitch title='是否隐藏地区' checked={this.state.citySwitchCheck} onChange={this.handleChangeCity} />
           <AtButton
             type='primary'
