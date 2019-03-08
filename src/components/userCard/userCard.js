@@ -32,7 +32,6 @@ export default class UserCard extends Component {
         const index = this.props.index
         const { id } = this.props.treeHoleStore.data.messageList[index]
         treeHoleStore.switchPrivate(index,id)
-        console.log('click')
     }
     render() {
         const { createdAt, like, show, files, value, hideName, privateMessage } = this.props.treeHoleStore.data.messageList[this.props.index]
@@ -76,7 +75,7 @@ export default class UserCard extends Component {
                         type='primary' 
                         size='small'
                         circle
-                        active={!privateMessage}
+                        active={privateMessage}
                         onClick={this.onPrivateClick.bind(this)}
                     >
                         {privateMessage?'取消仅自己可见':'点击仅自己可见'}
