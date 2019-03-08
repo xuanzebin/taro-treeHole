@@ -36,6 +36,7 @@ export default class Card extends Component {
             treeHoleStore: { data: { userData } }
         } = this.props
         const like =treeHoleStore.data.messageList[index].like
+        console.log(like)
         const id = userData.objectId
         const likeIndex = like.indexOf(id)
         if (likeIndex === -1) {
@@ -46,9 +47,10 @@ export default class Card extends Component {
     }
     render() {
         const { files } = this.props
-        const { length } = this.props.like
         const { treeHoleStore: { data: { userData: { objectId } } } } = this.props
-        const likeCheck = this.props.like.indexOf(objectId)
+        const { like } = this.props.treeHoleStore.data.messageList[this.props.index]
+        const length = like.length
+        const likeCheck = like.indexOf(objectId)
         const picture = files.map((array) => {
             let { url, picID } = array
             return (
