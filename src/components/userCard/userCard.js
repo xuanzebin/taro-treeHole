@@ -34,8 +34,10 @@ export default class UserCard extends Component {
         treeHoleStore.switchPrivate(index,id)
     }
     onDeleteClick(e) {
-        console.log('点击了删除')
-        console.log(e.target.dataset.id,e.target.dataset.index)
+        const {treeHoleStore} = this.props
+        let id=e.target.dataset.id
+        let index=e.target.dataset.index
+        treeHoleStore.deleteMessage(id,index)
     }
     render() {
         const { createdAt, like, show, files, value, hideName, privateMessage, id } = this.props.treeHoleStore.data.messageList[this.props.index]

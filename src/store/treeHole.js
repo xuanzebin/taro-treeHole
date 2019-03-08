@@ -61,6 +61,27 @@ const treeHoleStore = observable({
     var updateMessage = AV.Object.createWithoutData('message', messageList[index].id)
     updateMessage.set('data', JSON.stringify(messageList[index]))
     return updateMessage.save()
+  },
+  deleteMessage(id,index) {
+    const AV = require('leancloud-storage/dist/av-weapp.js')
+    var todo = AV.Object.createWithoutData('message', id)
+    todo.destroy().then((success) => {
+        // 删除成功
+        let array = this.data.messageList[index].files.map((value) => {
+            let picID = value.picID
+            var file = AV.File.createWithoutData(picID);
+            return file.destroy()
+        })
+        Promise.all(array).then((success) => {
+            console.log('删除成功！')
+            let messageList=JSON.parse(JSON.stringify(this.data.messageList))
+            messageList.splice(index, 1)
+            this.data.messageList=messageList
+        })
+    }, function (error) {
+        // 删除失败
+        alert('删除失败，请重试！')
+    })
   }
 })
 export default treeHoleStore
