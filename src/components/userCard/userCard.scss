@@ -17,4 +17,12 @@
             margin:5px;
         }
     }
+    & .mainContent{
+        position: relative;
+        &>.deleteButton{
+            position: absolute;
+            left:18%;
+            bottom:-56px;
+        }
+    }
 }

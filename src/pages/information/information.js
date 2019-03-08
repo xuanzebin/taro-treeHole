@@ -119,6 +119,7 @@ class Information extends Component {
         messageData.createdAt = todo.createdAt
         messageData.messageID = todo.id
         messageData.hideName = hideName
+        messageData.show = false
         this.addMessageList(messageData)
         this.interactive()
       })

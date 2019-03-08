@@ -33,8 +33,12 @@ export default class UserCard extends Component {
         const { id } = this.props.treeHoleStore.data.messageList[index]
         treeHoleStore.switchPrivate(index,id)
     }
+    onDeleteClick(e) {
+        console.log('点击了删除')
+        console.log(e.target.dataset.id,e.target.dataset.index)
+    }
     render() {
-        const { createdAt, like, show, files, value, hideName, privateMessage } = this.props.treeHoleStore.data.messageList[this.props.index]
+        const { createdAt, like, show, files, value, hideName, privateMessage, id } = this.props.treeHoleStore.data.messageList[this.props.index]
         
         this.files=files
         let length=like.length
@@ -80,11 +84,21 @@ export default class UserCard extends Component {
                     >
                         {privateMessage?'取消仅自己可见':'点击仅自己可见'}
                     </AtTag>:''}
-                    <View className='mainText'>
-                        {value}
-                    </View>
-                    <View className='picture'>
-                        {picture}
+                    <View className='mainContent'>
+                        <View className='mainText'>
+                            {value}
+                        </View>
+                        <View className='picture'>
+                            {picture}
+                        </View>
+                        <Text 
+                            className='deleteButton'
+                            onClick={this.onDeleteClick.bind(this)}
+                            data-index={this.props.index}
+                            data-id={id}
+                        >
+                            删除
+                        </Text>
                     </View>
                 </AtCard>
             </View>
