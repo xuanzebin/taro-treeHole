@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
-import { AtCard, AtTag } from 'taro-ui'
+import { AtCard, AtTag, AtModal, AtModalHeader, AtModalContent, AtModalAction } from 'taro-ui'
 import getDateDiff from '../../utils/message'
 import './userCard.scss'
 @inject('treeHoleStore')
@@ -13,7 +13,8 @@ export default class UserCard extends Component {
     constructor() {
         super(...arguments)
         this.state = {
-            urls:[]
+            urls:[],
+            modalOpen:false
         }
     }
     handlePicClick(e) {
@@ -30,7 +31,7 @@ export default class UserCard extends Component {
     onPrivateClick(e) {
         const { treeHoleStore } = this.props
         const index = this.props.index
-        const { id } = this.props.treeHoleStore.data.messageList[index]
+        const { id } = this.props.treeHoleStore.messageList[index]
         treeHoleStore.switchPrivate(index,id)
     }
     onDeleteClick(e) {
@@ -40,7 +41,10 @@ export default class UserCard extends Component {
         treeHoleStore.deleteMessage(id,index)
     }
     render() {
-        const { createdAt, like, show, files, value, hideName, privateMessage, id } = this.props.treeHoleStore.data.messageList[this.props.index]
+        if (!this.props.treeHoleStore.messageList[this.props.index]) return null
+        console.log(this.props.index)
+        console.log(this.props.treeHoleStore.messageList)
+        const { createdAt, like, show, files, value, hideName, privateMessage, id } = this.props.treeHoleStore.messageList[this.props.index]
         
         this.files=files
         let length=like.length

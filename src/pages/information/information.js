@@ -68,7 +68,7 @@ class Information extends Component {
       submitCheck: true
     })
     let { files, value } = this.state
-    const { treeHoleStore: { data: { userData } } } = this.props
+    const { treeHoleStore: { userData } } = this.props
     let { avatarUrl, nickName, objectId, city } = userData
     if (this.state.nameSwitchCheck) {
       nickName = CreateNames()
@@ -117,7 +117,7 @@ class Information extends Component {
       }
       query.save().then((todo) => {
         messageData.createdAt = todo.createdAt
-        messageData.messageID = todo.id
+        messageData.id = todo.id
         messageData.hideName = hideName
         messageData.show = false
         this.addMessageList(messageData)

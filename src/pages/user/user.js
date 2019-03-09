@@ -41,11 +41,12 @@ class User extends Component {
     }
   }
   render() {
-    const { treeHoleStore: { data: { userData } } } = this.props
+    const { treeHoleStore: { userData } } = this.props
     const { avatarUrl, nickName, objectId } = userData
-    const { treeHoleStore: { data: { messageList } } } = this.props
+    const { treeHoleStore: {  messageList  } } = this.props
     const ownerCard = messageList.map((messageValue, messageIndex) => {
       let messageID = messageValue.objectId
+      console.log('index',messageIndex)
       return messageID === objectId ? <UserCard index={messageIndex} key={messageValue.id}></UserCard> : null
     })
     return (
