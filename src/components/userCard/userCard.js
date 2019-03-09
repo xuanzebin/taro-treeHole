@@ -41,9 +41,7 @@ export default class UserCard extends Component {
         treeHoleStore.deleteMessage(id,index)
     }
     render() {
-        if (!this.props.treeHoleStore.messageList[this.props.index]) return null
-        console.log(this.props.index)
-        console.log(this.props.treeHoleStore.messageList)
+        if (!this.props.treeHoleStore.messageList[this.props.index]) return true
         const { createdAt, like, show, files, value, hideName, privateMessage, id } = this.props.treeHoleStore.messageList[this.props.index]
         
         this.files=files

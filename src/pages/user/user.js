@@ -46,7 +46,6 @@ class User extends Component {
     const { treeHoleStore: {  messageList  } } = this.props
     const ownerCard = messageList.map((messageValue, messageIndex) => {
       let messageID = messageValue.objectId
-      console.log('index',messageIndex)
       return messageID === objectId ? <UserCard index={messageIndex} key={messageValue.id}></UserCard> : null
     })
     return (
