@@ -35,10 +35,23 @@ export default class UserCard extends Component {
         treeHoleStore.switchPrivate(index,id)
     }
     onDeleteClick(e) {
+        this.setState({
+            modalOpen:true
+        })
+    }
+    onConfirm(e) {
         const {treeHoleStore} = this.props
         let id=e.target.dataset.id
         let index=e.target.dataset.index
         treeHoleStore.deleteMessage(id,index)
+        this.setState({
+            modalOpen:false
+        })
+    }
+    onCancel() {
+        this.setState({
+            modalOpen:false
+        })
     }
     render() {
         if (!this.props.treeHoleStore.messageList[this.props.index]) return true
@@ -103,6 +116,17 @@ export default class UserCard extends Component {
                         >
                             删除
                         </Text>
+                        <AtModal
+                            isOpened={modalOpen}
+                            title='--------\n\r确认删除吗?\n\r--------'
+                            cancelText='取消'
+                            confirmText='确认'
+                            // onClose={ this.handleClose }
+                            onCancel={ this.onCancel.bind(this) }
+                            onConfirm={ this.onConfirm.bind(this) }
+                            data-index={this.props.index}
+                            data-id={id}
+                        />
                     </View>
                 </AtCard>
             </View>
